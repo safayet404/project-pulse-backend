@@ -1,3 +1,4 @@
+const { query } = require('express');
 const Notice = require('../models/notificationModel')
 const Task = require('../models/taskModel')
 const User = require('../models/userModel')
@@ -132,14 +133,24 @@ const dashboardStatistics = async(req,res) =>{
             return result
         },{})
 
+        const grpD = Object.entries(
+            allTasks.reduce((result,task)=>{
+                const stage = task.stage
+
+                result[stage] = (result[stage] || 0) +1
+
+                return result
+            },{})
+        ).map(([name,total]) => ({name,total}))
+
         const groupData = Object.entries(
-            allTasks.reduce((result,task)=> {
-            const{ priority} = task
-            result[priority] = (result[priority] || 0) +1
-            return result
-        },{})
-        .map(([name,total]) => ({name,total}))
-    )
+            allTasks.reduce((result, task) => {
+                const { priority } = task;
+                result[priority] = (result[priority] || 0) + 1;
+                return result;
+            }, {})
+        ).map(([name, total]) => ({ name, total }));
+    
         const totalTasks = allTasks?.length
         const last10Task = allTasks?.slice(0,10)
 
@@ -148,7 +159,8 @@ const dashboardStatistics = async(req,res) =>{
             last10Task,
             users : isAdmin ? users : [],
             tasks : groupTask,
-            groupData : groupData
+            groupData : groupData,
+            grpD : grpD
 
 
         }
@@ -170,8 +182,7 @@ const dashboardStatistics = async(req,res) =>{
 const getTasks  = async(req,res) =>{
     try{
         const {stage,isTrashed}  = req.query
-        let query = {isTrashed : isTrashed ? true : false}
-        
+        let query = { isTrashed: isTrashed === 'true' };
         if(stage)
         {
             query.stage = stage
