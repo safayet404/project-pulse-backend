@@ -290,6 +290,7 @@ const trashTask  = async(req,res) =>{
     }
 
 }
+
 const deleteRestoreTask   = async(req,res) =>{
     try{
         const {id} = req.params

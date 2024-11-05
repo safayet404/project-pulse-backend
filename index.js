@@ -15,13 +15,15 @@ const app = express()
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-const corsConfig = {
-    origin : "*",
-    credential : true,
-    methods : ["GET","POST","PUT","DELETE"]
-}
-app.use(cors(corsConfig))
 
+app.use(
+    cors({
+      origin: ["http://localhost:3000", "http://localhost:3001"],
+      methods: ["GET", "POST", "DELETE", "PUT"],
+      credentials: true,
+    })
+  );
+  
 
 app.use("/api",allRouter)
 
@@ -31,4 +33,4 @@ app.use(morgan("dev"))
 app.use(routeNotFound)
 app.use(errorHandler)
 
-app.listen(PORT,() => console.log(`Server is running at${PORT}`))
+app.listen(PORT,() => console.log(`Server is running at ${PORT}`))
