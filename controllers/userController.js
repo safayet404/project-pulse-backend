@@ -1,8 +1,7 @@
 const User = require("../models/userModel")
 const createJWT = require("../utils/jwt")
 const Notice= require('../models/notificationModel')
-
-
+const { default: mongoose } = require("mongoose")
 const registerUser = async(req,res) =>{
     try{
         const {name,email,password,isAdmin,role,title} = req.body
@@ -73,6 +72,7 @@ const loginUser = async(req,res) =>{
 
 
 
+
 const logoutUser = async(req,res) =>{
     try{
         res.cookie("token","",{
@@ -124,7 +124,7 @@ const updateUserProfile = async(req,res) =>{
             user.title = req.body.title || user.title
             user.role = req.body.role || user.role
 
-            const updateUser = await User.save()
+            const updateUser = await user.save()
             user.password = undefined
 
             res.status(201).json({status : true, message : "Profile Updated Successfully",user : updateUser})
@@ -188,7 +188,9 @@ const changeUserPassword = async(req,res) =>{
 const activateUserProfile = async(req,res) =>{
     try{
         const {id} = req.params
-
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ status: false, message: "Invalid user ID" });
+          }
         const user = await User.findById(id)
 
         if(user)

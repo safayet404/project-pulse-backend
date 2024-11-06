@@ -9,6 +9,7 @@ router.post("/login",loginUser)
 router.post("/logout",logoutUser)
 
 
+
 router.get("/get-team",protectRoute,isAdminRoute,getTeamList)
 router.get("/notification",protectRoute,getNotificationsList)
 
