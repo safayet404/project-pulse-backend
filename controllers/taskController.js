@@ -159,7 +159,7 @@ const dashboardStatistics = async(req,res) =>{
             last10Task,
             users : isAdmin ? users : [],
             tasks : groupTask,
-            groupData : groupData,
+            graphData : groupData,
             grpD : grpD
 
 
@@ -182,7 +182,9 @@ const dashboardStatistics = async(req,res) =>{
 const getTasks  = async(req,res) =>{
     try{
         const {stage,isTrashed}  = req.query
+
         let query = { isTrashed: isTrashed === 'true' };
+        
         if(stage)
         {
             query.stage = stage
