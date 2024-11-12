@@ -226,6 +226,7 @@ const createSubTask  = async(req,res) =>{
     try{
         const {title,tag,date} = req.body
         const {id} = req.params
+        console.log(id)
 
         const newSubTask = {
             title,date,tag
@@ -235,6 +236,7 @@ const createSubTask  = async(req,res) =>{
         task.subTasks.push(newSubTask)
 
         await task.save()
+
 
         res.status(200).json({status : true, message : "SubTask added successfully"})
     }catch(error)

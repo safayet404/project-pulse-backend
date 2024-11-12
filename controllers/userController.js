@@ -100,7 +100,7 @@ const getNotificationsList = async(req,res) =>{
     try{
         const {userId} = req.user
 
-        const notice = await Notice.findOne({
+        const notice = await Notice.find({
             team : userId,
             isRead : {$nin : userId},
         }).populate("task","title")
@@ -113,6 +113,7 @@ const getNotificationsList = async(req,res) =>{
 }
 const updateUserProfile = async(req,res) =>{
     try{
+        
         const {userId,isAdmin} = req.user 
         const {_id} = req.body
         const id = isAdmin && userId === _id ? userId : isAdmin && userId !== _id ? _id : userId
