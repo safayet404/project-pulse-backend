@@ -105,7 +105,7 @@ const postTaskActivity  = async(req,res) =>{
 
     }catch(error)
     {
-        console.log(error);
+         console.log(error);
         return res.status(400).json({status : false, message : error.message})
         
     }
@@ -117,7 +117,7 @@ const dashboardStatistics = async(req,res) =>{
         const allTasks = await isAdmin ? await Task.find({isTrashed : false}).populate({path:"team",select:"name role title email"}).sort({_id : -1}) : 
         await Task.find({isTrashed : false,team : {$all : [userId]}}).populate({path:"team",select:"name role title email"}).sort({_id : -1})
 
-        const users = await User.find({isActive : true}).select("name title role isAdmin createdAt").limit(10).sort({_id : -1})
+        const users = await User.find({isActive : true}).select("name title role isAdmin isActive createdAt").limit(10).sort({_id : -1})
 
         const groupTask = allTasks.reduce((result,task)=>{
             const stage = task.stage
@@ -310,14 +310,16 @@ const deleteRestoreTask   = async(req,res) =>{
         }
         else if(actionType === "restore")
         {
-            const resp = await Task.findById()
+            const resp = await Task.findById(id)
             resp.isTrashed = false
             resp.save()
         }
-        else if(actionType === "restoreAlll")
-        {
-               await Task.updateMany({isTrashed : true},{$set:{isTrashed:false}})
-        }
+        else if (actionType === "restoreAll") {
+            await Task.updateMany(
+              { isTrashed: true },
+              { $set: { isTrashed: false } }
+            );
+          }
 
         res.status(200).json({
             status : true,

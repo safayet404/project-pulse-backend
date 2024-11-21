@@ -18,7 +18,7 @@ var taskSchema = new mongoose.Schema({
         type:String,
         default : "todo", enum :["todo","in progress","completed",]
     },
-    activities:{
+    activities:[{
         type : {
 
             type:String,
@@ -30,7 +30,7 @@ var taskSchema = new mongoose.Schema({
  
         
         
-    },
+    }],
     subTasks : [
         {
             title : String,
