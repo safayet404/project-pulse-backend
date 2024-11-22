@@ -5,7 +5,7 @@ const createJWT = (res, userId) => {
     res.cookie("token", token, {
         httpOnly: false,
         secure: process.env.NODE_ENV !== "development",
-        sameSite: "strict",
+        sameSite: "None",
         maxAge: 60 * 60 * 24 * 1000 // 1 day in milliseconds
     });
 }
