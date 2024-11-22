@@ -16,15 +16,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-    cors({
-      origin: "*",
-      methods: ["GET", "POST", "DELETE", "PUT"],
-      credentials: false,
-    })
-  );
-  
+app.use(cors())
 
+const corsConfig = {
+    origin : "*",
+    credential : true,
+    methods : ["GET","POST","PUT","DELETE"]
+}
+app.use(cors(corsConfig))
 app.use("/api",allRouter)
 
 
