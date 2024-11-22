@@ -18,12 +18,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors())
 
-const corsConfig = {
-    origin : "*",
-    credential : true,
-    methods : ["GET","POST","PUT","DELETE"]
-}
-app.use(cors(corsConfig))
+const allowedOrigins = [
+  "http://localhost:3000", // Local frontend during development
+  "https://your-frontend-domain.com", // Deployed frontend
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    credentials: true, // Allows credentials (cookies, authorization headers, etc.)
+  })
+);
 app.use("/api",allRouter)
 
 
