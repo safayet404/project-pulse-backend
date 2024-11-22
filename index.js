@@ -16,14 +16,25 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors())
+const allowedOrigins = [
+  "http://localhost:3000",  // Local development frontend
+  "https://your-frontend-domain.com",  // Deployed frontend URL
+];
 
-const corsConfig = {
-    origin : "*",
-    credential : true,
-    methods : ["GET","POST","PUT","DELETE"]
-}
-app.use(cors(corsConfig))
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., mobile apps, Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Allow cookies and credentials
+  })
+);
 app.use("/api",allRouter)
 
 
