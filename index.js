@@ -19,8 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 const allowedOrigins = [
-  "http://localhost:3000", // Local frontend during development
-  "https://your-frontend-domain.com", // Deployed frontend
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://your-frontend-domain.com", 
 ];
 
 app.use(
