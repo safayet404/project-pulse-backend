@@ -8,11 +8,13 @@ const createJWT = (res, userId) => {
     try {
         const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "24h" });
         res.cookie("token", token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV === 'production', // Secure only in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Cross-origin in production
+            sameSite: 'None',
             maxAge: 60 * 60 * 24 * 1000, // 1 day
         });
+       
+
     } catch (error) {
         console.error("Error creating JWT:", error);
         throw new Error("Failed to create JWT");

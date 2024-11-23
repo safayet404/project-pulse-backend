@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 
-
 const protectRoute = async (req, res, next) => {
     try {
       let token = req.cookies?.token;
@@ -11,8 +10,9 @@ const protectRoute = async (req, res, next) => {
       }
   
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      
       const resp = await User.findById(decodedToken.userId).select("isAdmin email");
-  
+
       req.user = {
         email: resp.email,
         isAdmin: resp.isAdmin,
