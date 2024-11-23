@@ -8,8 +8,10 @@ const createJWT = (res, userId) => {
     try {
         const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "24h" });
         res.cookie("token", token, {
-            httpOnly: false,
-            secure: process.env.NODE_ENV === 'production', // Secure only in production
+            httpOnly: true,
+
+            secure : true,
+            //secure: process.env.NODE_ENV === 'production', // Secure only in production
             sameSite: 'None',
              domain: '.onrender.com',
             maxAge: 60 * 60 * 24 * 1000, // 1 day
