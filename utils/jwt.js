@@ -9,7 +9,7 @@ const createJWT = (res, userId) => {
         const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "24h" });
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Secure only in production
+            secure: process.env.NODE_ENV === 'production' || window.location.protocol === 'https:', // Ensures secure in production and localhost over HTTPS
             sameSite: 'None',
             maxAge: 60 * 60 * 24 * 1000, // 1 day
         });
