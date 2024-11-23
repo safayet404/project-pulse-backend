@@ -11,6 +11,7 @@ const createJWT = (res, userId) => {
             httpOnly: false,
             secure: process.env.NODE_ENV === 'production', // Secure only in production
             sameSite: 'None',
+             domain: '.onrender.com',
             maxAge: 60 * 60 * 24 * 1000, // 1 day
         });
        
