@@ -17,8 +17,12 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ['http://localhost:5173','https://project-management-system-sepia.vercel.app'], // Allow your frontend domain
-  credentials: true,               // Allow credentials (cookies, HTTP authentication)
+  origin: ['http://localhost:5173','project-management-system-cloud.vercel.app'],
+  credentials: true,
+  methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+  allowedHeaders: ["Content-Type", "Authorization"]
+
+                 
 };
 
 app.use(cors(corsOptions));
