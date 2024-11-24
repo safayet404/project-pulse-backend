@@ -11,7 +11,7 @@ const createJWT = (res, userId) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'None',
-            maxAge: 60 * 60 * 24 * 30 * 1000
+            maxAge: 30 * 24 * 60 * 60 * 1000
         });
    
 
