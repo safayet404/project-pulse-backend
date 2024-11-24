@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ['http://localhost:5173','project-management-system-cloud.vercel.app'],
+  origin: ['http://localhost:5173','https://project-management-system-cloud.vercel.app'],
   credentials: true,               
 };
 
