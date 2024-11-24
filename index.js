@@ -16,15 +16,24 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-const corsOptions = {
-  origin: ['http://localhost:5173','project-management-system-cloud.vercel.app'],
-  credentials: true,
-  methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
-  allowedHeaders: ["Content-Type", "Authorization"]
+const allowedOrigins = [
+  "https://project-management-system-cloud.vercel.app"
+];
 
-                 
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request if origin is in the list
+    } else {
+      callback(new Error("Not allowed by CORS")); // Reject the request
+    }
+  },
+  credentials: true, // Allow credentials (cookies, authorization headers)
+  methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS", // Allowed HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"] // Allowed headers
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
 app.use("/api",allRouter)
 
